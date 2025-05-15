@@ -19,6 +19,7 @@ public class Engine
 
     private Level _currentLevel = new();
     private PlayerObject? _player;
+    private FallowerFlower? _flower;
 
     private DateTimeOffset _lastUpdate = DateTimeOffset.Now;
 
@@ -32,7 +33,8 @@ public class Engine
 
     public void SetupWorld()
     {
-        _player = new(SpriteSheet.Load(_renderer, "Player.json", "Assets"), 100, 100);
+        _player = new PlayerObject(SpriteSheet.Load(_renderer, "Player.json", "Assets"), 100, 100);
+        _flower = new FallowerFlower(_player, SpriteSheet.Load(_renderer, "Flower.json", "Assets"));
 
         var levelContent = File.ReadAllText(Path.Combine("Assets", "terrain.tmj"));
         var level = JsonSerializer.Deserialize<Level>(levelContent);
@@ -96,11 +98,13 @@ public class Engine
         bool addBomb = _input.IsKeyBPressed();
 
         _player.UpdatePosition(up, down, left, right, 48, 48, msSinceLastFrame);
+        _flower?.Update();
+
         if (isAttacking)
         {
             _player.Attack();
         }
-        
+
         _scriptEngine.ExecuteAll(this);
 
         if (addBomb)
@@ -152,7 +156,8 @@ public class Engine
                 _player.GameOver();
             }
         }
-
+        Console.WriteLine("Rendering FallowerFlower at " + _flower?.Position);
+        _flower?.Render(_renderer);
         _player?.Render(_renderer);
     }
 

@@ -1,0 +1,25 @@
+{
+    "FileName": "flower.png",
+    "FrameWidth": 48,
+    "FrameHeight": 48,
+    "RowCount": 4,
+    "ColumnCount": 5,
+    "FrameCenter": {
+        "OffsetX": 24,
+        "OffsetY": 42
+    },
+    "Animations": {
+        "IdleDown": {
+            "StartFrame": {
+                "Row": 0,
+                "Col": 0
+            },
+            "EndFrame": {
+                "Row": 0,
+                "Col": 4
+            },
+            "DurationMs": 500,
+            "Loop": true
+        }
+    }
+}
